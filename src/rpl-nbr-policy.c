@@ -44,13 +44,13 @@
  *
  */
 
-#include "net/rpl/rpl-private.h"
-#include "net/nbr-table.h"
-#include "net/ipv6/uip-ds6-nbr.h"
-#include "net/ipv6/uip-ds6-route.h"
+#include "rpl-private.h"
+// #include "net/nbr-table.h"
+// #include "net/ipv6/uip-ds6-nbr.h"
+// #include "net/ipv6/uip-ds6-route.h"
 
-#define DEBUG DEBUG_NONE
-#include "net/ip/uip-debug.h"
+// #define DEBUG DEBUG_NONE
+// #include "net/ip/uip-debug.h"
 
 /*
  * Policy for neighbor adds

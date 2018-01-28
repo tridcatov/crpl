@@ -38,12 +38,8 @@
 #ifndef RPL_H
 #define RPL_H
 
+#include "platform.h"
 #include "rpl-conf.h"
-
-#include "lib/list.h"
-#include "net/ip/uip.h"
-#include "net/ipv6/uip-ds6.h"
-#include "sys/ctimer.h"
 
 /*---------------------------------------------------------------------------*/
 typedef uint16_t rpl_rank_t;
@@ -295,7 +291,7 @@ int rpl_process_srh_header(void);
 int rpl_srh_get_next_hop(uip_ipaddr_t *ipaddr);
 
 /* Per-parent RPL information */
-NBR_TABLE_DECLARE(rpl_parents);
+// NBR_TABLE_DECLARE(rpl_parents);
 
 /**
  * RPL modes

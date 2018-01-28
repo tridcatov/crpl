@@ -29,17 +29,13 @@
  *
  */
 
-#include "contiki.h"
-#include "contiki-net.h"
-
-#include "net/rpl/rpl.h"
-#include "net/rpl/rpl-private.h"
-#include "net/rpl/rpl-dag-root.h"
+#include "rpl.h"
+#include "rpl-private.h"
+#include "rpl-dag-root.h"
 
 #include <string.h>
 
 #define DEBUG DEBUG_NONE
-#include "net/ip/uip-debug.h"
 
 #define RPL_DAG_GRACE_PERIOD (CLOCK_SECOND * 20 * 1)
 

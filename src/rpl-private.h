@@ -37,16 +37,16 @@
 #ifndef RPL_PRIVATE_H
 #define RPL_PRIVATE_H
 
-#include "net/rpl/rpl.h"
+#include "rpl.h"
 
-#include "lib/list.h"
-#include "net/ip/uip.h"
-#include "sys/clock.h"
-#include "sys/ctimer.h"
-#include "net/ipv6/uip-ds6.h"
-#include "net/ipv6/uip-ds6-route.h"
-#include "net/rpl/rpl-ns.h"
-#include "net/ipv6/multicast/uip-mcast6.h"
+//#include "lib/list.h"
+//#include "net/ip/uip.h"
+//#include "sys/clock.h"
+//#include "sys/ctimer.h"
+//#include "net/ipv6/uip-ds6.h"
+// #include "net/ipv6/uip-ds6-route.h"
+#include "rpl-ns.h"
+// #include "net/ipv6/multicast/uip-mcast6.h"
 
 /*---------------------------------------------------------------------------*/
 /** \brief Is IPv6 address addr the link-local, all-RPL-nodes

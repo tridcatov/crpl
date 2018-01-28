@@ -43,23 +43,25 @@
  * @{
  */
 
-#include "contiki.h"
-#include "net/link-stats.h"
-#include "net/rpl/rpl-private.h"
-#include "net/ip/uip.h"
-#include "net/ipv6/uip-nd6.h"
-#include "net/ipv6/uip-ds6-nbr.h"
-#include "net/nbr-table.h"
-#include "net/ipv6/multicast/uip-mcast6.h"
-#include "lib/list.h"
-#include "lib/memb.h"
-#include "sys/ctimer.h"
+// #include "contiki.h"
+#include "platform.h"
+
+// #include "net/link-stats.h"
+#include "rpl-private.h"
+// #include "net/ip/uip.h"
+// #include "net/ipv6/uip-nd6.h"
+// #include "net/ipv6/uip-ds6-nbr.h"
+// #include "net/nbr-table.h"
+// #include "net/ipv6/multicast/uip-mcast6.h"
+// #include "lib/list.h"
+// #include "lib/memb.h"
+// #include "sys/ctimer.h"
 
 #include <limits.h>
 #include <string.h>
 
 #define DEBUG DEBUG_NONE
-#include "net/ip/uip-debug.h"
+// #include "net/ip/uip-debug.h"
 
 /* A configurable function called after every RPL parent switch */
 #ifdef RPL_CALLBACK_PARENT_SWITCH
@@ -81,7 +83,8 @@ static rpl_of_t * const objective_functions[] = RPL_SUPPORTED_OFS;
 
 /*---------------------------------------------------------------------------*/
 /* Per-parent RPL information */
-NBR_TABLE_GLOBAL(rpl_parent_t, rpl_parents);
+// NBR_TABLE_GLOBAL(rpl_parent_t, rpl_parents);
+nbr_table_t * rpl_parents;
 /*---------------------------------------------------------------------------*/
 /* Allocate instance table. */
 rpl_instance_t instance_table[RPL_MAX_INSTANCES];
