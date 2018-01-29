@@ -2,7 +2,7 @@
 
 Crpl is an open source implementation of RPL protocol.
 
-## Building Plusar from Source
+## Building Crpl from Source
 ```
 mkdir build
 cd build
