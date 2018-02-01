@@ -5,7 +5,7 @@ project(crpl C)
 #*********************************************************
 # output directory
 #*********************************************************
-set(CRPL_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/output)
+set(CRPL_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/output)
 
 #*********************************************************
 # BITNESS
