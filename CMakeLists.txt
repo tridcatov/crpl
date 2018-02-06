@@ -57,6 +57,8 @@ set(HEADERS
     src/rpl-dag-root.h
     src/rpl-ns.h
     src/rpl-private.h
+    src/uip.h
+    src/rpl-types.h
 )
 
 set(SOURCES

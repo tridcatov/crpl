@@ -5,22 +5,11 @@
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
 
+
 // TYPES
 
-typedef unsigned int				uint32_t;
-typedef short unsigned int 	uint16_t;
-typedef unsigned char			uint8_t;
-typedef short int int16_t;
-typedef char int8_t;
-/** Representing ipv6 address
- */
-
-typedef union uip_ip6addr_t {
-  uint8_t u8[16];
-  uint16_t u16[8];
-} uip_ip6addr_t;
-
-typedef uip_ip6addr_t uip_ipaddr_t;
+#include "rpl-types.h"
+#include "uip.h"
 
 
 /** Timers and time constants
