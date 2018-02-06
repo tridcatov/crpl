@@ -74,4 +74,4 @@ set(SOURCES
     src/rpl-timers.c
 )
 
-add_library(crpl SHARED ${HEADERS} ${SOURCES})
+add_library(crpl STATIC ${HEADERS} ${SOURCES})
