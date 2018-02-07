@@ -50,28 +50,43 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CRPL_OUTPUT_DIR})
 #*********************************************************
 # sources
 #*********************************************************
-set(HEADERS
-    src/platform.h
-    src/rpl.h
-    src/rpl-conf.h
-    src/rpl-dag-root.h
-    src/rpl-ns.h
-    src/rpl-private.h
-    src/uip.h
-    src/rpl-types.h
+
+set(INCLUDE_DIR include/rpl)
+
+set(H
+    platform.h
+    rpl.h
+    rpl-conf.h
+    rpl-dag-root.h
+    rpl-ns.h
+    rpl-private.h
+    uip.h
+    rpl-types.h
 )
 
-set(SOURCES
-    src/rpl.c
-    src/rpl-dag.c
-    src/rpl-dag-root.c
-    src/rpl-ext-header.c
-    src/rpl-icmp6.c
-    src/rpl-mrhof.c
-    src/rpl-nbr-policy.c
-    src/rpl-ns.c
-    src/rpl-of0.c
-    src/rpl-timers.c
+foreach(HEADER ${H})
+    set(HEADERS ${HEADERS} ${INCLUDE_DIR}/${HEADER})
+endforeach(HEADER)
+
+set(SOURCE_DIR src)
+
+set(S
+    rpl.c
+    rpl-dag.c
+    rpl-dag-root.c
+    rpl-ext-header.c
+    rpl-icmp6.c
+    rpl-mrhof.c
+    rpl-nbr-policy.c
+    rpl-ns.c
+    rpl-of0.c
+    rpl-timers.c
 )
 
-add_library(crpl STATIC ${HEADERS} ${SOURCES})
+foreach(SOURCE ${S})
+    set(SOURCES ${SOURCES} ${SOURCE_DIR}/${SOURCE})
+endforeach(SOURCE)
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIR})
+
+add_library(crpl SHARED ${HEADERS} ${SOURCES})
