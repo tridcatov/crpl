@@ -89,4 +89,5 @@ endforeach(SOURCE)
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIR})
 
-add_library(crpl SHARED ${HEADERS} ${SOURCES})
+add_definitions(-fPIC)
+add_library(crpl STATIC ${HEADERS} ${SOURCES})
