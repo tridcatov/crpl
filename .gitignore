@@ -1,0 +1,7 @@
+# ignoring vim swap filws
+.*.swp
+
+# ignoring qtcreator cmake user settings
+
+CMakeLists.txt.user
+
