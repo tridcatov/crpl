@@ -8,7 +8,7 @@
 #if LOGGING_ENABLED == 1
   #include "stdio.h"
 
-  #define LOG(level, component, message) printf("[%5s] %5s: %s\n", (level), (component), (message))
+  #define LOG(level, component, message) printf("[%5s] %20s: %s\n", (level), (component), (message))
 #else
   #define LOG(level, component, message)
 #endif // LOGGING_ENABLED == 1
