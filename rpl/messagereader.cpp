@@ -14,8 +14,10 @@ Message * MessageReader::fromBuffer(Buffer * b)
     switch(code) {
     case RplCode::DIS:
         message = new DisMessage();
+        break;
     case RplCode::DIO:
         message = new DioMessage();
+        break;
     default:
         return 0;
     }

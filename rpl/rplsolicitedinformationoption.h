@@ -18,6 +18,7 @@ private:
     bool matchDID;
 public:
     RplSolicitedInformationOption(RplInstance *);
+    RplSolicitedInformationOption(char * buf);
     virtual int length() const { return optLength() + 2; }
     virtual char * inscribeInBuffer(char *buf) const;
 

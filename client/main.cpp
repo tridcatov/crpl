@@ -8,6 +8,7 @@
 #include "rplpadnoption.h"
 #include "rplsolicitedinformationoption.h"
 #include "rplInstance.h"
+#include "messagereader.h"
 
 REGISTER_COMPONENT("MAIN");
 
@@ -45,6 +46,13 @@ int main(int argc, char ** argv) {
 
     Buffer * buf = dis.compileMessage();
     buf->printHex();
+
+    Message * disDeserialized = MessageReader::fromBuffer(buf);
+    if ( disDeserialized->optionNumber() != 4 ) {
+        ERR("Deserialization failed");
+    }
+
+
     delete buf;
 
     return 0;

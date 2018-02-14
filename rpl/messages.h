@@ -28,6 +28,7 @@ public:
         options.push_back(opt);
     }
     Buffer * compileMessage() const;
+    inline int optionNumber() const { return options.size(); }
 };
 
 #endif // MESSAGES_H

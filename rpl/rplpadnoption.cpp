@@ -4,13 +4,25 @@
 
 using RE = std::runtime_error;
 
+static inline void assertPadding(int padding) {
+    if ( padding < 2 || padding > 7 )
+        throw new RE("Not allowed padding out of constraints [2, 7]");
+}
+
 RplPadNOption::RplPadNOption(int padding)
     : RplOption(RplOption::PADN)
 {
-    if ( padding < 2 || padding > 7 )
-        throw new RE("Not allowed padding out of constraints [2, 7]");
-
+    assertPadding(padding);
     this->padding = padding;
+}
+
+RplPadNOption::RplPadNOption(char *buf)
+    : RplOption(RplOption::PADN)
+{
+    int l = buf[1] + 2;
+    assertPadding(l);
+
+    padding = l;
 }
 
 char * RplPadNOption::inscribeInBuffer(char *buf) const

@@ -7,6 +7,7 @@ class RplPad1Option : public RplOption
 {
 public:
     RplPad1Option();
+    RplPad1Option(char *) : RplOption(PAD1) {}
     virtual ~RplPad1Option() {}
     virtual char * inscribeInBuffer(char *buf) const;
     virtual int length() const { return 1; }
