@@ -25,3 +25,7 @@ void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
         WARN("Sending raw buffer, not an rpl message");
     }
 }
+
+void DummyIOAgent::broadcastOutput(Message *message) {
+    DEBUG("Broadcasting message");
+}

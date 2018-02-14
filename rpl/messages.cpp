@@ -1,14 +1,29 @@
 #include "messages.h"
+#include "buffer.h"
+#include "rploption.h"
 
-#include "string.h"
+using It = std::list<RplOption *>::const_iterator;
 
-void Message::setBuffer(const char *src, int length) {
-    memcpy(buf, src, length);
-    len = length;
-    code = RplCode::NONE;
+Buffer * Message::inscribeOptions(Buffer * buffer) const {
+    char * b = buffer->buf + buffer->len;
+    int optLen = 0;
+    for (It o = options.begin(); o != options.end(); o++) {
+        RplOption * opt = *o;
+        b = opt->inscribeInBuffer(b);
+        optLen += opt->length();
+    }
+
+    buffer->len += optLen;
+    return buffer;
 }
 
-const char * Message::getCStr() {
-    buf[len] = '\0';
-    return buf;
+Buffer * Message::compileMessage() const {
+    Buffer * result = new Buffer();
+    result = inscribeMessage(result);
+    return inscribeOptions(result);
+}
+
+Message::~Message() {
+    for(It o = options.begin(); o != options.end(); o++)
+        delete *o;
 }

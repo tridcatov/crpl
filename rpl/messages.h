@@ -3,32 +3,31 @@
 
 #include "definitions.h"
 
-#define MAX_MESSAGE_LEN 512 * 4
+#include <list>
+
+class RplOption;
+class Buffer;
+
 class Message {
-    RplCode code;
-    char buf[MAX_MESSAGE_LEN];
-    int len;
+private:
+    Message() {}
+    friend class MessageReader;
 protected:
-    Message(RplCode code): code(code), len(0) {}
+    RplCode code;
+    std::list<RplOption *> options;
+    Message(RplCode code) : code(code) {}
+
+    virtual Buffer * inscribeMessage(Buffer *) const = 0;
+    virtual void readMessage(Buffer *) = 0;
+
+    Buffer * inscribeOptions(Buffer *) const;
 public:
-    static Message * getDIO() {
-        return new Message(RplCode::DIO);
+    RplCode getCode() const { return code; }
+    virtual ~Message();
+    void addOption(RplOption * opt) {
+        options.push_back(opt);
     }
-
-    static Message * getDAO() {
-        return new Message(RplCode::DAO);
-    }
-
-    static Message * getDIS() {
-        return new Message(RplCode::DIS);
-    }
-
-    void setBuffer(const char * src, int length);
-    inline int getLength() const { return len; }
-    const char * getBuffer() const { return buf; }
-    const char * getCStr();
-    inline RplCode getCode() const { return code; }
-
+    Buffer * compileMessage() const;
 };
 
 #endif // MESSAGES_H
