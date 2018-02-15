@@ -6,10 +6,15 @@
 
 Message * MessageReader::fromBuffer(Buffer * b)
 {
-    if ( b->len == 0 )
+    return fromBuffer(b->buf, b->len);
+}
+
+Message * MessageReader::fromBuffer(char *buf, int len)
+{
+    if ( len == 0 )
         return 0;
 
-    int code = b->buf[0];
+    int code = buf[0];
     Message * message;
     switch(code) {
     case RplCode::DIS:
@@ -21,7 +26,7 @@ Message * MessageReader::fromBuffer(Buffer * b)
     default:
         return 0;
     }
-    message->readMessage(b);
+    message->readMessage(buf, len);
     return message;
 }
 

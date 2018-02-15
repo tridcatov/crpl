@@ -1,10 +1,13 @@
 #include "dismessage.h"
 #include "buffer.h"
 #include "optionreader.h"
+#include "rploption.h"
 
 #include <stdexcept>
+#include <set>
 
 using RE = std::runtime_error;
+using OptionsSet = std::set<RplOption::Type>;
 
 DisMessage::DisMessage()
     : Message(RplCode::DIS)
@@ -24,11 +27,20 @@ Buffer * DisMessage::inscribeMessage(Buffer * b) const {
 }
 
 
-void DisMessage::readMessage(Buffer * b) {
-    int length = b->len;
-    if ( length <= baseLen )
+void DisMessage::readMessage(char * b, int len) {
+    if ( len <= baseLen )
         throw new RE("Malformed DIS message");
 
-    if ( length == baseLen) return;
-    options = OptionReader::readOptions(b->buf + baseLen, length - baseLen);
+    if ( len == baseLen) return;
+    options = OptionReader::readOptions(b + baseLen, len - baseLen);
+}
+
+bool DisMessage::optionIsAcceptable(RplOption * opt) const
+{
+    static OptionsSet acceptable = {
+        RplOption::PAD1,
+        RplOption::PADN,
+        RplOption::SOLICITED_INFORMATION
+    };
+    return acceptable.find(opt->getType()) != acceptable.end();
 }

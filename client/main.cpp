@@ -9,19 +9,32 @@
 #include "rplsolicitedinformationoption.h"
 #include "rplInstance.h"
 #include "messagereader.h"
+#include "rpl.h"
 
 REGISTER_COMPONENT("MAIN");
+
+static void testDio(IOAgent &);
+static void testDis(IOAgent &);
+static void testDao(IOAgent &);
 
 int main(int argc, char ** argv) {
     DEBUG("debug works");
     WARN("warning works");
     ERR("error works");
 
-    DummyIOAgent * agent = new DummyIOAgent();
+    DummyIOAgent agent;
+    Rpl rpl(&agent, true);
+
+    testDis(agent);
+
+    return 0;
+}
+
+static void testDis(IOAgent & agent) {
     Address addr;
     DisMessage dis;
-    agent->sendOutput(addr, &dis);
-    agent->broadcastOutput(&dis);
+    agent.sendOutput(addr, &dis);
+    agent.broadcastOutput(&dis);
 
     RplOption * opt = new RplPad1Option();
     dis.addOption(opt);
@@ -50,10 +63,11 @@ int main(int argc, char ** argv) {
     Message * disDeserialized = MessageReader::fromBuffer(buf);
     if ( disDeserialized->optionNumber() != 4 ) {
         ERR("Deserialization failed");
+    } else {
+        WARN("Exactly 4 options parsed");
     }
 
-
+    agent.processInput(addr, buf->buf, buf->len);
+    delete disDeserialized;
     delete buf;
-
-    return 0;
 }

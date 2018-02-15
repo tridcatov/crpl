@@ -9,7 +9,14 @@ public:
     enum Type {
         PAD1 = 0,
         PADN = 1,
-        SOLICITED_INFORMATION = 7
+        DAG_METRIC_CONTAINER = 2,
+        ROUTING_INFORMATION = 3,
+        DODAG_CONFIGURATION = 4,
+        RPL_TARGET = 5,
+        TRANSIT_INFORMATION = 6,
+        SOLICITED_INFORMATION = 7,
+        PREFIX_INFORMATION = 8,
+        TARGET_DESCRIPTOR = 9
     };
 private:
     RplOption() {}

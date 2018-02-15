@@ -1,14 +1,13 @@
 #include "dummyioagent.h"
 #include "logging.h"
 #include "messages.h"
+#include "messagereader.h"
+#include "rpl.h"
 
 REGISTER_COMPONENT("DummyIOAgent");
 
 DummyIOAgent::DummyIOAgent() {}
 
-void DummyIOAgent::processInput(const Address &sender, Message *message) {
-    DEBUG("Processing input callback");
-}
 
 void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
     switch (message->getCode()) {

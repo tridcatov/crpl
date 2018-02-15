@@ -10,7 +10,8 @@ class DisMessage : public Message
     friend class MessageReader;
 protected:
     virtual Buffer * inscribeMessage(Buffer *) const;
-    virtual void readMessage(Buffer *);
+    virtual void readMessage(char *, int len);
+    virtual bool optionIsAcceptable(RplOption *) const;
 public:
     DisMessage();
 };

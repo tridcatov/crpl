@@ -8,6 +8,7 @@ class MessageReader
 {
 public:
     static Message * fromBuffer(Buffer * buf);
+    static Message * fromBuffer(char * buf, int len);
     static Buffer * toBuffer(Message * msg);
 };
 
