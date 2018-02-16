@@ -17,6 +17,7 @@ public:
 
     void print() const;
     inline int length() const { return 16; }
+    bool operator==(const Address & other) const;
 };
 
 #endif // ADDRESS_H

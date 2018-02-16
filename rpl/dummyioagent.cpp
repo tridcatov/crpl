@@ -2,6 +2,7 @@
 #include "logging.h"
 #include "messages.h"
 #include "messagereader.h"
+#include "buffer.h"
 #include "rpl.h"
 
 REGISTER_COMPONENT("DummyIOAgent");
@@ -10,6 +11,9 @@ DummyIOAgent::DummyIOAgent() {}
 
 
 void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
+    DEBUG("Outgoing message to");
+    receiver.print();
+
     switch (message->getCode()) {
     case RplCode::DAO:
         DEBUG("Sending DAO");
@@ -21,8 +25,13 @@ void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
         DEBUG("Sending DIS");
         break;
     default:
-        WARN("Sending raw buffer, not an rpl message");
+        ERR("Sending raw buffer, not an rpl message");
     }
+    DEBUG("Outgoing message contents:");
+    Buffer * b = message->compileMessage();
+    b->printHex();
+    delete b;
+
 }
 
 void DummyIOAgent::broadcastOutput(Message *message) {

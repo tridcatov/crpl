@@ -38,3 +38,13 @@ void Address::print() const
     DEBUG(buf);
 #endif // LOGGING_ENABLED == 1
 }
+
+bool Address::operator==(const Address &other) const
+{
+    for( int i = 0; i < length(); i++) {
+        if (u8[i] != other.u8[i] )
+            return false;
+    }
+
+    return true;
+}

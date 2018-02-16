@@ -36,7 +36,7 @@ int main(int argc, char ** argv) {
     instance.setId(42);
     instance.setVersion(3);
 
-    Rpl rpl(&io, &netconf, true);
+    Rpl rpl(&io, &netconf, &instance, true);
 
     testDis(io, netconf, instance);
     testDao(io, netconf, instance);
@@ -47,7 +47,9 @@ int main(int argc, char ** argv) {
 static void testDis(IOAgent & agent,
                     const NetconfAgent & netconf,
                     const RplInstance & instance) {
-    Address addr = netconf.getSelfAddress();
+    Address addr = netconf.getBroadcastAddress();
+    addr.u8[15] = 0xfe;
+
     DisMessage dis;
     agent.sendOutput(addr, &dis);
     agent.broadcastOutput(&dis);
@@ -75,7 +77,7 @@ static void testDis(IOAgent & agent,
         WARN("Exactly 4 options parsed");
     }
 
-    agent.processInput(netconf.getBroadcastAddress(), buf->buf, buf->len);
+    agent.processInput(addr, buf->buf, buf->len);
     delete disDeserialized;
     delete buf;
 }

@@ -5,8 +5,10 @@ class IOAgent;
 class NetconfAgent;
 
 class RplInstance;
-class Node;
 
+#include <node.h>
+
+class Message;
 class DisMessage;
 class DioMessage;
 class DaoMessage;
@@ -24,21 +26,29 @@ private:
     IOAgent * io;
     NetconfAgent * net;
 
+    NodeList neighbors;
     NodeList children;
     NodeList parents;
-    Node * thisNode;
+    Node thisNode;
 
     bool root;
+private:
+    void processDis(DisMessage *, const Address &);
+    void processDao(DaoMessage *, const Address &);
+    void processDio(DioMessage *, const Address &);
 public:
-    Rpl(IOAgent * io, NetconfAgent * net, bool isRoot = false);
+    Rpl(IOAgent * io, NetconfAgent * net, RplInstance * ri, bool isRoot = false);
 
     Node * getMostSutableParent() const;
     const NodeList& getChildren() const { return children; }
     const NodeList& getParents() const { return parents; }
+    const NodeList& getNeighbors() const { return neighbors; }
 
-    void processDis(DisMessage *, const Address &);
-    void processDao(DaoMessage *, const Address &);
-    void processDio(DioMessage *, const Address &);
+    bool hasNeighbor(const Node &) const;
+
+    void processMessage(Message *, const Address &);
+
+    void outputDio(const Address &);
 };
 
 #endif // RPL_H
