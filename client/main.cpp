@@ -1,7 +1,10 @@
 #include "logging.h"
-#include "dummyioagent.h"
+#include "rpl.h"
+
 #include "messages.h"
 #include "dismessage.h"
+#include "daomessage.h"
+
 #include "address.h"
 #include "buffer.h"
 #include "rplpad1option.h"
@@ -9,14 +12,16 @@
 #include "rplsolicitedinformationoption.h"
 #include "rplInstance.h"
 #include "messagereader.h"
-#include "rpl.h"
+
 #include "dummynetconfagent.h"
+#include "dummyioagent.h"
+
 
 REGISTER_COMPONENT("MAIN");
 
-static void testDio(IOAgent &, const NetconfAgent &);
-static void testDis(IOAgent &, const NetconfAgent &);
-static void testDao(IOAgent &, const NetconfAgent &);
+static void testDio(IOAgent &, const NetconfAgent &, const RplInstance &);
+static void testDis(IOAgent &, const NetconfAgent &, const RplInstance &);
+static void testDao(IOAgent &, const NetconfAgent &, const RplInstance &);
 
 int main(int argc, char ** argv) {
     DEBUG("debug works");
@@ -26,14 +31,22 @@ int main(int argc, char ** argv) {
     DummyIOAgent io;
     DummyNetconfAgent netconf(2);
 
+    RplInstance instance;
+    instance.setDID(netconf.getSelfAddress());
+    instance.setId(42);
+    instance.setVersion(3);
+
     Rpl rpl(&io, &netconf, true);
 
-    testDis(io, netconf);
+    testDis(io, netconf, instance);
+    testDao(io, netconf, instance);
 
     return 0;
 }
 
-static void testDis(IOAgent & agent, const NetconfAgent & netconf) {
+static void testDis(IOAgent & agent,
+                    const NetconfAgent & netconf,
+                    const RplInstance & instance) {
     Address addr = netconf.getSelfAddress();
     DisMessage dis;
     agent.sendOutput(addr, &dis);
@@ -45,12 +58,8 @@ static void testDis(IOAgent & agent, const NetconfAgent & netconf) {
     opt = new RplPadNOption(4);
     dis.addOption(opt);
 
-    RplInstance instance;
-    instance.setDID(addr);
-    instance.setId(42);
-    instance.setVersion(3);
 
-    opt = new RplSolicitedInformationOption(&instance);
+    opt = new RplSolicitedInformationOption(instance);
     dis.addOption(opt);
 
     opt = new RplPadNOption(3);
@@ -70,3 +79,21 @@ static void testDis(IOAgent & agent, const NetconfAgent & netconf) {
     delete disDeserialized;
     delete buf;
 }
+
+void testDao(IOAgent & io,
+             const NetconfAgent & nc,
+             const RplInstance & ri)
+{
+    Address addr = nc.getSelfAddress();
+    DaoMessage dao(ri);
+
+    Buffer * buf = dao.compileMessage();
+    DEBUG("DAO serialized contents");
+    buf->printHex();
+
+    Message * daoDeserialized = MessageReader::fromBuffer(buf);
+
+    io.processInput(addr, buf->buf, buf->len);
+    delete buf;
+}
+

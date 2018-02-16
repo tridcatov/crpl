@@ -1,12 +1,12 @@
 #include "rplsolicitedinformationoption.h"
 #include "rplInstance.h"
 
-RplSolicitedInformationOption::RplSolicitedInformationOption(RplInstance * inst)
+RplSolicitedInformationOption::RplSolicitedInformationOption(const RplInstance &inst)
     : RplOption(SOLICITED_INFORMATION)
 {
-    instanceId = inst->getId();
-    versionNumber = inst->getVersion();
-    dodagid = inst->getDID();
+    instanceId = inst.getId();
+    versionNumber = inst.getVersion();
+    dodagid = inst.getDID();
 
     matchVersion = true;
     matchInstance = true;

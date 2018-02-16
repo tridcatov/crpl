@@ -11,7 +11,12 @@ public:
     static Address getPrivateBroadcastAddress();
     Address();
     std::string toString() const;
+
+    void insribeInBuffer(char * buf) const;
+    void readFromBuffer(char * buf);
+
     void print() const;
+    inline int length() const { return 16; }
 };
 
 #endif // ADDRESS_H

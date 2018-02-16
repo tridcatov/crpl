@@ -16,6 +16,18 @@ Address::Address()
         u8[i] = 0;
 }
 
+void Address::insribeInBuffer(char *buf) const
+{
+    for (int i = 0; i < length(); i++ )
+        buf[i] = u8[i];
+}
+
+void Address::readFromBuffer(char *buf)
+{
+    for (int i = 0; i < length(); i++)
+        u8[i] = buf[i];
+}
+
 void Address::print() const
 {
 #if LOGGING_ENABLED == 1

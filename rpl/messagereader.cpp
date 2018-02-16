@@ -2,6 +2,7 @@
 #include "messages.h"
 #include "dismessage.h"
 #include "diomessage.h"
+#include "daomessage.h"
 #include "buffer.h"
 
 Message * MessageReader::fromBuffer(Buffer * b)
@@ -22,6 +23,9 @@ Message * MessageReader::fromBuffer(char *buf, int len)
         break;
     case RplCode::DIO:
         message = new DioMessage();
+        break;
+    case RplCode::DAO:
+        message = new DaoMessage();
         break;
     default:
         return 0;

@@ -30,11 +30,11 @@ void Rpl::processDis(DisMessage * msg, const Address & sender)
 void Rpl::processDao(DaoMessage *, const Address &)
 {
     LOCK;
-    DEBUG("Processing incoming RPL DIS message");
+    DEBUG("Processing incoming RPL DAO message");
 }
 
 void Rpl::processDio(DioMessage *, const Address &)
 {
     LOCK;
-    DEBUG("Processing incoming RPL DIS message");
+    DEBUG("Processing incoming RPL DIO message");
 }

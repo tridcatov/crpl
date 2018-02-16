@@ -28,7 +28,7 @@ Buffer * DisMessage::inscribeMessage(Buffer * b) const {
 
 
 void DisMessage::readMessage(char * b, int len) {
-    if ( len <= baseLen )
+    if ( len < baseLen )
         throw new RE("Malformed DIS message");
 
     if ( len == baseLen) return;
