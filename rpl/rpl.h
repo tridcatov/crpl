@@ -1,8 +1,10 @@
 #ifndef RPL_H
 #define RPL_H
 
-class RplInstance;
 class IOAgent;
+class NetconfAgent;
+
+class RplInstance;
 class Node;
 
 class DisMessage;
@@ -18,14 +20,17 @@ using NodeList = std::list<Node *>;
 class Rpl {
 private:
     RplInstance * instance;
+
     IOAgent * io;
+    NetconfAgent * net;
+
     NodeList children;
     NodeList parents;
     Node * thisNode;
 
     bool root;
 public:
-    Rpl(IOAgent * io, bool isRoot = false);
+    Rpl(IOAgent * io, NetconfAgent * net, bool isRoot = false);
 
     Node * getMostSutableParent() const;
     const NodeList& getChildren() const { return children; }

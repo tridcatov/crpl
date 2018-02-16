@@ -10,28 +10,31 @@
 #include "rplInstance.h"
 #include "messagereader.h"
 #include "rpl.h"
+#include "dummynetconfagent.h"
 
 REGISTER_COMPONENT("MAIN");
 
-static void testDio(IOAgent &);
-static void testDis(IOAgent &);
-static void testDao(IOAgent &);
+static void testDio(IOAgent &, const NetconfAgent &);
+static void testDis(IOAgent &, const NetconfAgent &);
+static void testDao(IOAgent &, const NetconfAgent &);
 
 int main(int argc, char ** argv) {
     DEBUG("debug works");
     WARN("warning works");
     ERR("error works");
 
-    DummyIOAgent agent;
-    Rpl rpl(&agent, true);
+    DummyIOAgent io;
+    DummyNetconfAgent netconf(2);
 
-    testDis(agent);
+    Rpl rpl(&io, &netconf, true);
+
+    testDis(io, netconf);
 
     return 0;
 }
 
-static void testDis(IOAgent & agent) {
-    Address addr;
+static void testDis(IOAgent & agent, const NetconfAgent & netconf) {
+    Address addr = netconf.getSelfAddress();
     DisMessage dis;
     agent.sendOutput(addr, &dis);
     agent.broadcastOutput(&dis);
@@ -41,10 +44,6 @@ static void testDis(IOAgent & agent) {
 
     opt = new RplPadNOption(4);
     dis.addOption(opt);
-
-    addr.u8[0] = 0xfe;
-    addr.u8[1] = 0x2e;
-    addr.u8[15] = 0x1a;
 
     RplInstance instance;
     instance.setDID(addr);
@@ -67,7 +66,7 @@ static void testDis(IOAgent & agent) {
         WARN("Exactly 4 options parsed");
     }
 
-    agent.processInput(addr, buf->buf, buf->len);
+    agent.processInput(netconf.getBroadcastAddress(), buf->buf, buf->len);
     delete disDeserialized;
     delete buf;
 }

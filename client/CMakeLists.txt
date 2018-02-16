@@ -7,9 +7,8 @@ project(client CXX)
 #*********************************************************
 include(ProjectConfigure)
 
-set(SOURCES
-    main.cpp
-)
+file(GLOB HEADERS *.h)
+file(GLOB SOURCES *.cpp)
 
 add_definitions(-fPIC)
 add_definitions(-DLOGGING_ENABLED=1)
