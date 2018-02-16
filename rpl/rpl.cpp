@@ -41,6 +41,10 @@ void Rpl::processMessage(Message * message, const Address & sender)
         WARN("Received message from current node, possible loop storm");
         return;
     }
+
+    DEBUG("Received RPL message from:");
+    sender.print();
+
     switch (message->getCode()) {
     case RplCode::DIO:
         processDio((DioMessage *)message, sender);
@@ -62,7 +66,7 @@ using Lock = std::lock_guard<std::mutex>;
 
 void Rpl::processDis(DisMessage * msg, const Address & sender) {
     LOCK;
-    DEBUG("Processing incoming RPL DIS message from:");
+    DEBUG("Processing DIS RPL message...");
     Node neighbor(sender);
 
     if ( hasNeighbor(neighbor) )
