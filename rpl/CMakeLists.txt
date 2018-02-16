@@ -6,5 +6,8 @@ file(GLOB HEADERS *.h)
 file(GLOB SOURCES *.cpp)
 
 add_definitions(-DLOGGING_ENABLED=1)
+add_definitions(
+    -DHEX_BUFFER_OCTETS_IN_GROUP=4
+    -DHEX_BUFFER_GROUPS_IN_LINE=4)
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 
