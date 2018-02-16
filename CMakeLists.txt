@@ -11,6 +11,7 @@ INCLUDE_DIRECTORIES(
     rpl
     )
 
+add_definitions(-std=c++11)
 # ADD_SUBDIRECTORY(legacy)
 ADD_SUBDIRECTORY(client)
 ADD_SUBDIRECTORY(rpl)
