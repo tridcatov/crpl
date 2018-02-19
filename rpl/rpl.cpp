@@ -4,35 +4,45 @@
 #include "logging.h"
 #include "address.h"
 #include "node.h"
+#include "rplInstance.h"
 
 #include "messages.h"
 #include "diomessage.h"
+
+#include "util.h"
 
 #include <mutex>
 
 REGISTER_COMPONENT("RPLDaemon");
 
-Rpl::Rpl(IOAgent *io, NetconfAgent *net, RplInstance *ri, bool isRoot):
+Rpl::Rpl(IOAgent *io, NetconfAgent *net, const RplInstance &ri, bool isRoot):
     io(io),
     net(net),
-    instance(ri),
-    thisNode(net->getSelfAddress()),
     root(isRoot)
 {
+    node.address = net->getSelfAddress();
     io->setRplDaemon(this);
-    if ( isRoot )
-        thisNode.setRank(0);
+    if ( isRoot ) {
+        node.rank = 0;
+        node.instance.dodagid = net->getSelfAddress();
+        node.instance.version = 0;
+        node.instance.id = Util::shortIntFromBuffer((const char *)node.instance.dodagid.u8 + 14);
+    }
 }
 
-bool Rpl::hasNeighbor(const Node & node) const
-{
-    for(NodeList::const_iterator i = neighbors.begin(); i != neighbors.end(); i++) {
-        const Node & neighbor = **i;
-        if ( node == neighbor )
+static bool hasNode(const Address & address, const NodeList & nl) {
+    for(NodeList::const_iterator i = nl.begin(); i != nl.end(); i++) {
+        const Node & n = **i;
+        if ( n.address == address )
             return true;
     }
 
     return false;
+}
+
+bool Rpl::hasNeighbor(const Address &address) const
+{
+    return hasNode(address, neighbors);
 }
 
 void Rpl::processMessage(Message * message, const Address & sender)
@@ -67,9 +77,10 @@ using Lock = std::lock_guard<std::mutex>;
 void Rpl::processDis(DisMessage * msg, const Address & sender) {
     LOCK;
     DEBUG("Processing DIS RPL message...");
-    Node neighbor(sender);
+    Node neighbor;
+    neighbor.address = sender;
 
-    if ( hasNeighbor(neighbor) )
+    if ( hasNeighbor(sender) )
         WARN("Neighbor is already in cache, possible resolicit");
     else {
         DEBUG("Adding neighbor to cache with address:");
@@ -78,7 +89,9 @@ void Rpl::processDis(DisMessage * msg, const Address & sender) {
     }
 
     DEBUG("Unicast reply to sender");
-    outputDio(sender);
+
+    DioMessage dio(node);
+    io->sendOutput(sender, &dio);
 }
 
 void Rpl::processDao(DaoMessage *, const Address &) {
@@ -86,13 +99,25 @@ void Rpl::processDao(DaoMessage *, const Address &) {
     DEBUG("Processing incoming RPL DAO message");
 }
 
-void Rpl::processDio(DioMessage *, const Address &) {
+void Rpl::processDio(DioMessage * m, const Address & sender) {
     LOCK;
     DEBUG("Processing incoming RPL DIO message");
-}
 
-void Rpl::outputDio(const Address & receiver) {
-    DioMessage dio(*instance, thisNode);
-    DEBUG("Formed raw dio message to announce current instance");
-    io->sendOutput(receiver, &dio);
+    Node * n = new Node();
+    n->address = sender;
+    n->instance.dodagid = m->dodagid;
+    n->rank = m->rank;
+
+    if ( !hasNeighbor(sender) ) {
+        DEBUG("Discovered neighbor via DIO");
+        sender.print();
+        neighbors.push_back(n);
+    }
+
+    if ( parents.empty() ) {
+        DEBUG("No parents present, adding parent and updating instance");
+        parents.push_back(n);
+        node.instance = n->instance;
+        node.rank = n->rank + 1;
+    }
 }

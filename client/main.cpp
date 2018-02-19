@@ -32,11 +32,11 @@ int main(int argc, char ** argv) {
     DummyNetconfAgent netconf(2);
 
     RplInstance instance;
-    instance.setDID(netconf.getSelfAddress());
-    instance.setId(42);
-    instance.setVersion(3);
+    instance.dodagid = netconf.getSelfAddress();
+    instance.id = 42;
+    instance.version = 3;
 
-    Rpl rpl(&io, &netconf, &instance, true);
+    Rpl rpl(&io, &netconf, instance, true);
 
     testDis(io, netconf, instance);
     testDao(io, netconf, instance);
@@ -86,7 +86,8 @@ void testDao(IOAgent & io,
              const NetconfAgent & nc,
              const RplInstance & ri)
 {
-    Address addr = nc.getSelfAddress();
+    Address addr = nc.getBroadcastAddress();
+    addr.u8[15] = 0x03;
     DaoMessage dao(ri);
 
     Buffer buf;

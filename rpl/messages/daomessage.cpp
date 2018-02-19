@@ -18,10 +18,10 @@ DaoMessage::DaoMessage()
 DaoMessage::DaoMessage(const RplInstance &i)
     : Message(DAO)
 {
-    instanceId = i.getId();
+    instanceId = i.id;
     ackRequired = false;
     dodagAnnouncing = true;
-    dodagid = i.getDID();
+    dodagid = i.dodagid;
     sequence = generateDaoSequence();
 }
 

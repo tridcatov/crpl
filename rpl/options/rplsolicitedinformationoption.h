@@ -25,10 +25,6 @@ public:
     inline bool shouldMatchVersion() const { return matchVersion; }
     inline bool shouldMatchInstance() const { return matchInstance; }
     inline bool shouldMatchDID() const { return matchDID; }
-
-    inline void setMatchVersion(bool match = true) { matchVersion = match; }
-    inline void setMatchInstance(bool match = true) { matchInstance = match; }
-    inline void setMatchDID(bool match = true) { matchDID = match; }
 };
 
 #endif // RPLSOLICITEDINFORMATIONOPTION_H

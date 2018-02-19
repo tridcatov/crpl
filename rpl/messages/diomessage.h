@@ -17,7 +17,7 @@ public:
         STORING_NO_MCAST = 2,
         STORING_MCAST = 3
     };
-private:
+public:
     int instanceId;
     int versionNumber;
     int rank;
@@ -30,14 +30,8 @@ protected:
 
 public:
     DioMessage();
-    DioMessage(const RplInstance &, const Node &);
+    DioMessage(const Node &);
     virtual ~DioMessage() {}
-
-    inline int getInstanceId() const { return instanceId; }
-    inline int getVersionNumber() const { return versionNumber; }
-    inline int getRank() const { return rank; }
-    inline const Address & getDID() const { return dodagid; }
-    inline MOP getMop() const { return mop; }
 };
 
 #endif // DIOMESSAGE_H

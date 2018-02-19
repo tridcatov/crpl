@@ -17,14 +17,15 @@ DioMessage::DioMessage()
 
 }
 
-DioMessage::DioMessage(const RplInstance & i, const Node & n)
+DioMessage::DioMessage(const Node & n)
     : Message(RplCode::DIO)
 {
-    instanceId = i.getId();
-    versionNumber = i.getVersion();
-    dodagid = i.getDID();
+    const RplInstance & i = n.instance;
+    instanceId = i.id;
+    versionNumber = i.version;
+    dodagid = i.dodagid;
     mop = STORING_MCAST;
-    rank = n.getRank();
+    rank = n.rank;
 }
 
 static int baseLen = 1 + 4 + 4 + sizeof(Address);

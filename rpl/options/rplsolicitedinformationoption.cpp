@@ -4,9 +4,9 @@
 RplSolicitedInformationOption::RplSolicitedInformationOption(const RplInstance &inst)
     : RplOption(SOLICITED_INFORMATION)
 {
-    instanceId = inst.getId();
-    versionNumber = inst.getVersion();
-    dodagid = inst.getDID();
+    instanceId = inst.id;
+    versionNumber = inst.version;
+    dodagid = inst.dodagid;
 
     matchVersion = true;
     matchInstance = true;
