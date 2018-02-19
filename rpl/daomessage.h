@@ -18,8 +18,8 @@ private:
 
     static int generateDaoSequence();
 protected:
-    virtual void readMessage(char *, int);
-    virtual Buffer * inscribeMessage(Buffer *) const;
+    virtual void readMessage(const char *, int);
+    virtual void inscribeMessage(Buffer *) const;
     virtual bool optionIsAcceptable(RplOption *) const;
 public:
     DaoMessage();

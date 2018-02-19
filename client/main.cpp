@@ -67,8 +67,9 @@ static void testDis(IOAgent & agent,
     opt = new RplPadNOption(3);
     dis.addOption(opt);
 
-    Buffer * buf = dis.compileMessage();
-    buf->printHex();
+    Buffer buf;
+    dis.compileMessage(&buf);
+    buf.printHex();
 
     Message * disDeserialized = MessageReader::fromBuffer(buf);
     if ( disDeserialized->optionNumber() != 4 ) {
@@ -77,9 +78,8 @@ static void testDis(IOAgent & agent,
         WARN("Exactly 4 options parsed");
     }
 
-    agent.processInput(addr, buf->buf, buf->len);
+    agent.processInput(addr, buf.buf, buf.len);
     delete disDeserialized;
-    delete buf;
 }
 
 void testDao(IOAgent & io,
@@ -89,13 +89,13 @@ void testDao(IOAgent & io,
     Address addr = nc.getSelfAddress();
     DaoMessage dao(ri);
 
-    Buffer * buf = dao.compileMessage();
+    Buffer buf;
+    dao.compileMessage(&buf);
     DEBUG("DAO serialized contents");
-    buf->printHex();
+    buf.printHex();
 
     Message * daoDeserialized = MessageReader::fromBuffer(buf);
 
-    io.processInput(addr, buf->buf, buf->len);
-    delete buf;
+    io.processInput(addr, buf.buf, buf.len);
 }
 

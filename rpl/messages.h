@@ -18,10 +18,10 @@ protected:
 
     Message(RplCode code) : code(code) {}
 
-    virtual Buffer * inscribeMessage(Buffer *) const = 0;
-    virtual void readMessage(char *, int) = 0;
+    virtual void inscribeMessage(Buffer *) const = 0;
+    virtual void readMessage(const char *, int) = 0;
 
-    Buffer * inscribeOptions(Buffer *) const;
+    void inscribeOptions(Buffer *) const;
 public:
     RplCode getCode() const { return code; }
     virtual ~Message();
@@ -30,7 +30,7 @@ public:
             options.push_back(opt);
     }
     virtual bool optionIsAcceptable(RplOption *) const = 0;
-    Buffer * compileMessage() const;
+    void compileMessage(Buffer * b) const;
     inline int optionNumber() const { return options.size(); }
 };
 

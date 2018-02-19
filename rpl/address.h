@@ -13,7 +13,7 @@ public:
     std::string toString() const;
 
     void insribeInBuffer(char * buf) const;
-    void readFromBuffer(char * buf);
+    void readFromBuffer(const char * buf);
 
     void print() const;
     inline int length() const { return 16; }

@@ -29,7 +29,7 @@ DioMessage::DioMessage(const RplInstance & i, const Node & n)
 
 static int baseLen = 1 + 4 + 4 + sizeof(Address);
 
-void DioMessage::readMessage(char * b, int len)
+void DioMessage::readMessage(const char *b, int len)
 {
     if ( len < baseLen )
         throw RE("Insufficient DIO message length");
@@ -62,7 +62,7 @@ void DioMessage::readMessage(char * b, int len)
     options = OptionReader::readOptions(b + baseLen, len - baseLen);
 }
 
-Buffer *DioMessage::inscribeMessage(Buffer * buf) const
+void DioMessage::inscribeMessage(Buffer * buf) const
 {
     char * b = buf->buf;
 
@@ -82,7 +82,6 @@ Buffer *DioMessage::inscribeMessage(Buffer * buf) const
     }
 
     buf->len = baseLen;
-    return buf;
 }
 
 bool DioMessage::optionIsAcceptable(RplOption * opt) const

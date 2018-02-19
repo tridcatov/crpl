@@ -11,11 +11,11 @@
 using OptionList = std::list<RplOption *>;
 using RE = std::runtime_error;
 
-static RplOption * getOption(char *buf);
+static RplOption * getOption(const char *buf);
 
 REGISTER_COMPONENT("OptionReader");
 
-OptionList OptionReader::readOptions(char *buffer, int length)
+OptionList OptionReader::readOptions(const char *buffer, int length)
 {
     OptionList result;
     int optLength = 0;
@@ -28,7 +28,7 @@ OptionList OptionReader::readOptions(char *buffer, int length)
     return result;
 }
 
-static RplOption * getOption(char * buf) {
+static RplOption * getOption(const char * buf) {
     switch(*buf) {
     case RplOption::PAD1:
         return new RplPad1Option(buf);

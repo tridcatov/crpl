@@ -16,7 +16,7 @@ RplPadNOption::RplPadNOption(int padding)
     this->padding = padding;
 }
 
-RplPadNOption::RplPadNOption(char *buf)
+RplPadNOption::RplPadNOption(const char *buf)
     : RplOption(RplOption::PADN)
 {
     int l = buf[1] + 2;

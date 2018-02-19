@@ -4,7 +4,7 @@
 
 using It = std::list<RplOption *>::const_iterator;
 
-Buffer * Message::inscribeOptions(Buffer * buffer) const {
+void Message::inscribeOptions(Buffer * buffer) const {
     char * b = buffer->buf + buffer->len;
     int optLen = 0;
     for (It o = options.begin(); o != options.end(); o++) {
@@ -14,13 +14,11 @@ Buffer * Message::inscribeOptions(Buffer * buffer) const {
     }
 
     buffer->len += optLen;
-    return buffer;
 }
 
-Buffer * Message::compileMessage() const {
-    Buffer * result = new Buffer();
-    result = inscribeMessage(result);
-    return inscribeOptions(result);
+void Message::compileMessage(Buffer * b) const {
+    inscribeMessage(b);
+    inscribeOptions(b);
 }
 
 Message::~Message() {

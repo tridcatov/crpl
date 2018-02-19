@@ -36,7 +36,7 @@ static int baseLenNoAnnounce = 1 + 4;
 static int ackRequiredFlag = (1 << 7);
 static int didAnnouncedFlag = (1 << 6);
 
-Buffer *DaoMessage::inscribeMessage(Buffer * buf) const
+void DaoMessage::inscribeMessage(Buffer * buf) const
 {
     char * b = buf->buf;
     b[0] = (char) getCode();
@@ -57,10 +57,9 @@ Buffer *DaoMessage::inscribeMessage(Buffer * buf) const
     }
 
     buf->len = length;
-    return buf;
 }
 
-void DaoMessage::readMessage(char * b, int len)
+void DaoMessage::readMessage(const char *b, int len)
 {
     if ( len < baseLenNoAnnounce )
         throw RE("Malformed DAO message: too short");

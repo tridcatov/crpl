@@ -17,7 +17,7 @@ static int mvFlag = 1 << 7;
 static int miFlag = 1 << 6;
 static int mdFlag = 1 << 5;
 
-RplSolicitedInformationOption::RplSolicitedInformationOption(char *buf)
+RplSolicitedInformationOption::RplSolicitedInformationOption(const char *buf)
     : RplOption(SOLICITED_INFORMATION)
 {
     int flags = buf[3];

@@ -5,12 +5,12 @@
 #include "daomessage.h"
 #include "buffer.h"
 
-Message * MessageReader::fromBuffer(Buffer * b)
+Message * MessageReader::fromBuffer(const Buffer &b)
 {
-    return fromBuffer(b->buf, b->len);
+    return fromBuffer(b.buf, b.len);
 }
 
-Message * MessageReader::fromBuffer(char *buf, int len)
+Message * MessageReader::fromBuffer(const char *buf, int len)
 {
     if ( len == 0 )
         return 0;
@@ -36,5 +36,7 @@ Message * MessageReader::fromBuffer(char *buf, int len)
 
 Buffer * MessageReader::toBuffer(Message * msg)
 {
-    return msg->compileMessage();
+    Buffer * result = new Buffer();
+    msg->compileMessage(result);
+    return result;
 }

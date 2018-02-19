@@ -22,7 +22,7 @@ void Address::insribeInBuffer(char *buf) const
         buf[i] = u8[i];
 }
 
-void Address::readFromBuffer(char *buf)
+void Address::readFromBuffer(const char *buf)
 {
     for (int i = 0; i < length(); i++)
         u8[i] = buf[i];

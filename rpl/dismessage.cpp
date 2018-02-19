@@ -16,18 +16,17 @@ DisMessage::DisMessage()
 
 static int baseLen = 3;
 
-Buffer * DisMessage::inscribeMessage(Buffer * b) const {
+void DisMessage::inscribeMessage(Buffer * b) const {
     char * buf = b->buf;
 
     buf[0] = (char)RplCode::DIS;
     buf[1] = buf[2] = 0;
 
     b->len = baseLen;
-    return b;
 }
 
 
-void DisMessage::readMessage(char * b, int len) {
+void DisMessage::readMessage(const char *b, int len) {
     if ( len < baseLen )
         throw new RE("Malformed DIS message");
 

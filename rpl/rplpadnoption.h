@@ -9,7 +9,7 @@ private:
     int padding;
 public:
     RplPadNOption(int padding);
-    RplPadNOption(char * buf);
+    RplPadNOption(const char * buf);
     virtual char * inscribeInBuffer(char *buf) const;
     virtual int length() const { return padding; }
 };

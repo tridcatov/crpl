@@ -8,7 +8,7 @@ class RplOption;
 class OptionReader
 {
 public:
-    static std::list<RplOption *> readOptions(char * buffer, int length);
+    static std::list<RplOption *> readOptions(const char * buffer, int length);
     static void writeOptions(std::list<RplOption *> & options, char * buffer);
 };
 

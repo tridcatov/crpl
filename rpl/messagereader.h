@@ -7,8 +7,8 @@ class Buffer;
 class MessageReader
 {
 public:
-    static Message * fromBuffer(Buffer * buf);
-    static Message * fromBuffer(char * buf, int len);
+    static Message * fromBuffer(const Buffer & buf);
+    static Message * fromBuffer(const char *buf, int len);
     static Buffer * toBuffer(Message * msg);
 };
 

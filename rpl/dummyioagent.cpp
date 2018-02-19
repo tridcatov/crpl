@@ -9,6 +9,7 @@ REGISTER_COMPONENT("DummyIOAgent");
 
 DummyIOAgent::DummyIOAgent() {}
 
+static Buffer outputBuffer;
 
 void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
     DEBUG("Outgoing message to");
@@ -28,10 +29,8 @@ void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
         ERR("Sending raw buffer, not an rpl message");
     }
     DEBUG("Outgoing message contents:");
-    Buffer * b = message->compileMessage();
-    b->printHex();
-    delete b;
-
+    message->compileMessage(&outputBuffer);
+    outputBuffer.printHex();
 }
 
 void DummyIOAgent::broadcastOutput(Message *message) {

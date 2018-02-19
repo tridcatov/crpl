@@ -24,8 +24,8 @@ private:
     Address dodagid;
     MOP mop;
 protected:
-    virtual void readMessage(char *, int);
-    virtual Buffer * inscribeMessage(Buffer *) const;
+    virtual void readMessage(const char *, int);
+    virtual void inscribeMessage(Buffer *) const;
     virtual bool optionIsAcceptable(RplOption *) const;
 
 public:
