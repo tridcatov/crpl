@@ -6,8 +6,12 @@
 #include "node.h"
 #include "rplInstance.h"
 
+#include "rploption.h"
+#include "targetoption.h"
+
 #include "messages.h"
 #include "diomessage.h"
+#include "daomessage.h"
 
 #include "util.h"
 
@@ -94,9 +98,38 @@ void Rpl::processDis(DisMessage * msg, const Address & sender) {
     io->sendOutput(sender, &dio);
 }
 
-void Rpl::processDao(DaoMessage *, const Address &) {
+using OptionsList = std::list<RplOption *>;
+using TargetList = std::list<TargetOption *>;
+
+static TargetList getTargets(const OptionsList & opts) {
+    TargetList result;
+    for(RplOption * opt : opts) {
+        if ( opt->getType() == RplOption::RPL_TARGET )
+            result.push_back((TargetOption *) opt);
+    }
+
+    return result;
+}
+
+void Rpl::processDao(DaoMessage * m, const Address & addr) {
     LOCK;
     DEBUG("Processing incoming RPL DAO message");
+
+    TargetList targets = getTargets(m->getOptions());
+    if ( targets.empty() ) {
+        WARN("DAO message arrived with no targets to advertise");
+        return;
+    }
+
+    DEBUG("Adding route entries with nexthop:");
+    addr.print();
+
+    for (TargetOption * opt : targets) {
+        const Address & target = opt->addr;
+        DEBUG("Route target:");
+        target.print();
+        routables[target] = addr;
+    }
 }
 
 void Rpl::processDio(DioMessage * m, const Address & sender) {
@@ -164,5 +197,12 @@ void Rpl::print() const
 
     DEBUG("Current parent status:");
     m_parent.print();
+
+    printf("\tRoutable entries number: %d\n", routables.size());
+    for(const HopInfo & hop : routables ) {
+        hop.first.print();
+        DEBUG("VIA");
+        hop.second.print();
+    }
 #endif
 }

@@ -11,6 +11,7 @@
 #include "rplpad1option.h"
 #include "rplpadnoption.h"
 #include "rplsolicitedinformationoption.h"
+#include "targetoption.h"
 #include "rplInstance.h"
 #include "messagereader.h"
 
@@ -42,6 +43,7 @@ int main(int argc, char ** argv) {
     testDis(io, netconf, instance);
     testDao(io, netconf, instance);
     testDio(io, netconf, instance);
+
     rpl.print();
 
     return 0;
@@ -105,6 +107,17 @@ void testDao(IOAgent & io,
     advertisments.push_back(&node);
 
     DaoMessage dao(ri, advertisments);
+    node.address.u8[15]++;
+    TargetOption target1(node);
+    dao.addOption(&target1);
+
+    node.address.u8[15]++;
+    TargetOption target2(node);
+    dao.addOption(&target2);
+
+    node.address.u8[15]++;
+    TargetOption target3(node);
+    dao.addOption(&target3);
 
     Buffer buf;
     dao.compileMessage(&buf);
@@ -123,7 +136,7 @@ void testDio(IOAgent & io,
     DEBUG("------- Testing DIO advertisments -------");
 
     Address addr = nc.getBroadcastAddress();
-    addr.u8[15] = 0x04;
+    addr.u8[15] = 0x01;
 
     Node node;
     node.address = addr;

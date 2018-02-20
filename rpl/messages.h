@@ -8,13 +8,15 @@
 class RplOption;
 class Buffer;
 
+using OptionsList = std::list<RplOption *>;
+
 class Message {
 private:
     Message() {}
     friend class MessageReader;
 protected:
     RplCode code;
-    std::list<RplOption *> options;
+    OptionsList options;
 
     Message(RplCode code) : code(code) {}
 
@@ -24,7 +26,7 @@ protected:
     void inscribeOptions(Buffer *) const;
 public:
     RplCode getCode() const { return code; }
-    virtual ~Message();
+    virtual ~Message() {}
     void addOption(RplOption * opt) {
         if ( optionIsAcceptable(opt) )
             options.push_back(opt);
@@ -32,6 +34,7 @@ public:
     virtual bool optionIsAcceptable(RplOption *) const = 0;
     void compileMessage(Buffer * b) const;
     inline int optionNumber() const { return options.size(); }
+    inline const OptionsList & getOptions() const { return options; }
 };
 
 #endif // MESSAGES_H

@@ -28,7 +28,7 @@ public:
     virtual ~RplOption() {}
     // virtual char * readOption(char * buf) = 0;
     virtual int length() const = 0;
-    inline Type getType() { return type; }
+    inline Type getType() const { return type; }
 
 };
 

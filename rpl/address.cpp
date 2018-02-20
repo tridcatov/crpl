@@ -16,6 +16,13 @@ Address::Address()
         u8[i] = 0;
 }
 
+Address::Address(const Address &other)
+{
+    for(int i = 0; i < length(); i++) {
+        u8[i] = other.u8[i];
+    }
+}
+
 void Address::insribeInBuffer(char *buf) const
 {
     for (int i = 0; i < length(); i++ )
@@ -47,4 +54,21 @@ bool Address::operator==(const Address &other) const
     }
 
     return true;
+}
+
+bool Address::operator<(const Address &other) const
+{
+    for (int i = 0; i < length(); i++) {
+        if ( u8[i] < other.u8[i] )
+            return true;
+    }
+
+    return false;
+}
+
+void Address::operator=(const Address &other)
+{
+    for(int i = 0; i < length(); i++) {
+        u8[i] = other.u8[i];
+    }
 }

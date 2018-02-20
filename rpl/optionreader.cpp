@@ -4,6 +4,8 @@
 #include "rplpad1option.h"
 #include "rplpadnoption.h"
 #include "rplsolicitedinformationoption.h"
+#include "targetoption.h"
+#include "dodagconfigurationoption.h"
 #include "logging.h"
 
 #include <stdexcept>
@@ -34,6 +36,10 @@ static RplOption * getOption(const char * buf) {
         return new RplPad1Option(buf);
     case RplOption::PADN:
         return new RplPadNOption(buf);
+    case RplOption::DODAG_CONFIGURATION:
+        return new DodagConfigurationOption(buf);
+    case RplOption::RPL_TARGET:
+        return new TargetOption(buf);
     case RplOption::SOLICITED_INFORMATION:
         return new RplSolicitedInformationOption(buf);
     default:

@@ -4,7 +4,12 @@
 class IOAgent;
 class NetconfAgent;
 
-#include <node.h>
+
+#include <list>
+#include <map>
+
+#include "node.h"
+
 
 class Message;
 class DisMessage;
@@ -13,9 +18,10 @@ class DaoMessage;
 
 class Address;
 
-#include <list>
 
 using NodeList = std::list<Node *>;
+using HopMap = std::map<Address, Address>;
+using HopInfo = std::pair<Address, Address>;
 
 class Rpl {
 private:
@@ -25,6 +31,7 @@ private:
     NodeList neighbors;
     NodeList children;
     NodeList parents;
+    HopMap routables;
 
     Node node;
     Node m_parent;

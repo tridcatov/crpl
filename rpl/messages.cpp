@@ -21,7 +21,3 @@ void Message::compileMessage(Buffer * b) const {
     inscribeOptions(b);
 }
 
-Message::~Message() {
-    for(It o = options.begin(); o != options.end(); o++)
-        delete *o;
-}

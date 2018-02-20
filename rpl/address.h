@@ -10,6 +10,7 @@ public:
     static Address * fromString(const std::string & s);
     static Address getPrivateBroadcastAddress();
     Address();
+    Address(const Address & other);
     std::string toString() const;
 
     void insribeInBuffer(char * buf) const;
@@ -18,6 +19,8 @@ public:
     void print() const;
     inline int length() const { return 16; }
     bool operator==(const Address & other) const;
+    bool operator<(const Address & other) const;
+    void operator=(const Address & other);
 };
 
 #endif // ADDRESS_H
