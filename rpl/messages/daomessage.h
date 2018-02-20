@@ -4,6 +4,11 @@
 #include "messages.h"
 #include "address.h"
 
+#include <list>
+
+class Node;
+using NodeList = std::list<Node *>;
+
 class RplInstance;
 
 class DaoMessage : public Message
@@ -23,7 +28,7 @@ protected:
     virtual bool optionIsAcceptable(RplOption *) const;
 public:
     DaoMessage();
-    DaoMessage(const RplInstance &);
+    DaoMessage(const RplInstance &, const NodeList & nodes);
     virtual ~DaoMessage() {}
 };
 

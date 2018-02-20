@@ -4,6 +4,7 @@
 #include "node.h"
 #include "buffer.h"
 #include "optionreader.h"
+#include "util.h"
 
 #include <set>
 #include <stdexcept>
@@ -37,7 +38,7 @@ void DioMessage::readMessage(const char *b, int len)
 
     instanceId = b[1];
     versionNumber = b[2];
-    rank = ( b[3] << 8 ) | b[4];
+    rank = Util::shortIntFromBuffer(b + 3);
     int mopflags = ( b[5] >> 3 ) & 7;
     switch (mopflags) {
 
@@ -71,8 +72,7 @@ void DioMessage::inscribeMessage(Buffer * buf) const
     b[1] = (char) instanceId;
     b[2] = (char) versionNumber;
 
-    b[3] = (char) rank >> 8;
-    b[4] = (char) rank & 0xff;
+    Util::shortIntToBuffer(rank, b + 3);
 
     char mode = (1 << 7) | (mop << 3);
     b[5] = mode;

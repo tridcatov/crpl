@@ -4,6 +4,7 @@
 #include "messages.h"
 #include "dismessage.h"
 #include "daomessage.h"
+#include "diomessage.h"
 
 #include "address.h"
 #include "buffer.h"
@@ -40,6 +41,8 @@ int main(int argc, char ** argv) {
 
     testDis(io, netconf, instance);
     testDao(io, netconf, instance);
+    testDio(io, netconf, instance);
+    rpl.print();
 
     return 0;
 }
@@ -47,6 +50,8 @@ int main(int argc, char ** argv) {
 static void testDis(IOAgent & agent,
                     const NetconfAgent & netconf,
                     const RplInstance & instance) {
+
+    DEBUG("------- Testing DIS solicitation -------");
     Address addr = netconf.getBroadcastAddress();
     addr.u8[15] = 0xfe;
 
@@ -86,9 +91,20 @@ void testDao(IOAgent & io,
              const NetconfAgent & nc,
              const RplInstance & ri)
 {
+    DEBUG("------- Testing DAO advertisments -------");
     Address addr = nc.getBroadcastAddress();
     addr.u8[15] = 0x03;
-    DaoMessage dao(ri);
+
+    Node node;
+    node.address = addr;
+    node.instance = ri;
+    node.rank = 500;
+    node.print();
+
+    NodeList advertisments;
+    advertisments.push_back(&node);
+
+    DaoMessage dao(ri, advertisments);
 
     Buffer buf;
     dao.compileMessage(&buf);
@@ -100,3 +116,27 @@ void testDao(IOAgent & io,
     io.processInput(addr, buf.buf, buf.len);
 }
 
+void testDio(IOAgent & io,
+             const NetconfAgent & nc,
+             const RplInstance & ri)
+{
+    DEBUG("------- Testing DIO advertisments -------");
+
+    Address addr = nc.getBroadcastAddress();
+    addr.u8[15] = 0x04;
+
+    Node node;
+    node.address = addr;
+    node.instance = ri;
+    node.rank = 200;
+
+    DioMessage dio(node);
+
+    Buffer buf;
+    dio.compileMessage(&buf);
+    DEBUG("DIO buffer contents:");
+    buf.printHex();
+    dio.compileMessage(&buf);
+
+    io.processInput(addr, buf.buf, buf.len);
+}

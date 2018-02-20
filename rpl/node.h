@@ -17,6 +17,14 @@ public:
     bool operator==(const Node & o) const {
         return address == o.address;
     }
+
+    void print() const;
+
+    void operator=(const Node & o) {
+        rank = o.rank;
+        address = o.address;
+        instance = o.instance;
+    }
 };
 
 

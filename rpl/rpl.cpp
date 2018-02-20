@@ -108,16 +108,57 @@ void Rpl::processDio(DioMessage * m, const Address & sender) {
     n->instance.dodagid = m->dodagid;
     n->rank = m->rank;
 
+    DEBUG("Parsed following node information from DIO:");
+    n->print();
+
+
     if ( !hasNeighbor(sender) ) {
         DEBUG("Discovered neighbor via DIO");
         sender.print();
         neighbors.push_back(n);
     }
 
-    if ( parents.empty() ) {
-        DEBUG("No parents present, adding parent and updating instance");
+    if ( !hasNode(sender, parents) ) {
+        DEBUG("Adding as parent");
         parents.push_back(n);
-        node.instance = n->instance;
-        node.rank = n->rank + 1;
     }
+
+    if ( !parents.empty() ) {
+        const Node * selectedParent = getMostSutableParent();
+        DEBUG("Selected following address as parent:");
+        selectedParent->address.print();
+        m_parent = *selectedParent;
+
+        DEBUG("Updating ranks");
+
+        node.instance = selectedParent->instance;
+        node.rank = selectedParent->rank + 1;
+    }
+}
+
+const Node * Rpl::getMostSutableParent() const
+{
+    if ( parents.empty() )
+        return 0;
+
+    const Node * result = *parents.begin();
+    for ( NodeList::const_iterator i = parents.begin(); i != parents.end(); i++) {
+        const Node * candidate = *i;
+        if ( candidate->rank < result->rank )
+            result = candidate;
+    }
+
+    return result;
+}
+
+void Rpl::print() const
+{
+#if LOGGING_ENABLED == 1
+    DEBUG("Status information");
+    DEBUG("Current node status:");
+    node.print();
+
+    DEBUG("Current parent status:");
+    m_parent.print();
+#endif
 }
