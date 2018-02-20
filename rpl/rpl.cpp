@@ -105,8 +105,12 @@ void Rpl::processDio(DioMessage * m, const Address & sender) {
 
     Node * n = new Node();
     n->address = sender;
-    n->instance.dodagid = m->dodagid;
     n->rank = m->rank;
+
+    RplInstance & i = n->instance;
+    i.dodagid = m->dodagid;
+    i.id = m->instanceId;
+    i.version = m->versionNumber;
 
     DEBUG("Parsed following node information from DIO:");
     n->print();
