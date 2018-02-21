@@ -15,7 +15,7 @@ DaoMessage::DaoMessage()
 
 }
 
-DaoMessage::DaoMessage(const RplInstance &i, const NodeList & nodes)
+DaoMessage::DaoMessage(const RplInstance & i)
     : Message(DAO)
 {
     instanceId = i.id;

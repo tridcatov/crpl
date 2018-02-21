@@ -103,21 +103,16 @@ void testDao(IOAgent & io,
     node.rank = 500;
     node.print();
 
-    NodeList advertisments;
-    advertisments.push_back(&node);
+    DaoMessage dao(ri);
 
-    DaoMessage dao(ri, advertisments);
-    node.address.u8[15]++;
-    TargetOption target1(node);
-    dao.addOption(&target1);
+    Address targetAddress = node.address;
 
-    node.address.u8[15]++;
-    TargetOption target2(node);
-    dao.addOption(&target2);
+    for(int i = 0; i < 5; i++ ) {
+        targetAddress.u8[15]++;
+        RplOption * target = new TargetOption(targetAddress);
+        dao.addOption(target);
+    }
 
-    node.address.u8[15]++;
-    TargetOption target3(node);
-    dao.addOption(&target3);
 
     Buffer buf;
     dao.compileMessage(&buf);
@@ -125,6 +120,7 @@ void testDao(IOAgent & io,
     buf.printHex();
 
     Message * daoDeserialized = MessageReader::fromBuffer(buf);
+    delete daoDeserialized;
 
     io.processInput(addr, buf.buf, buf.len);
 }

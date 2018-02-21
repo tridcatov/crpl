@@ -111,7 +111,9 @@ static TargetList getTargets(const OptionsList & opts) {
     return result;
 }
 
-void Rpl::processDao(DaoMessage * m, const Address & addr) {
+using AddressList = std::list<Address>;
+
+void Rpl::processDao(DaoMessage * m, const Address & sender) {
     LOCK;
     DEBUG("Processing incoming RPL DAO message");
 
@@ -122,14 +124,36 @@ void Rpl::processDao(DaoMessage * m, const Address & addr) {
     }
 
     DEBUG("Adding route entries with nexthop:");
-    addr.print();
+    sender.print();
 
     for (TargetOption * opt : targets) {
         const Address & target = opt->addr;
         DEBUG("Route target:");
         target.print();
-        routables[target] = addr;
+        routables[target] = sender;
     }
+
+    if ( root ) {
+        DEBUG("Finished aggregating routes at root node");
+        return;
+    }
+
+    DEBUG("Preparing DAO to propagate for parent");
+
+    DaoMessage dao(node.instance);
+
+    AddressList addresses;
+    addresses.push_back(node.address);
+    for(const HopInfo & hop : routables) {
+        addresses.push_back(hop.first);
+    }
+
+    for(const Address & addr : addresses) {
+        RplOption * target = new TargetOption(addr);
+        dao.addOption(target);
+    }
+
+    io->sendOutput(m_parent.address, &dao);
 }
 
 void Rpl::processDio(DioMessage * m, const Address & sender) {

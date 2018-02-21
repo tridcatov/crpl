@@ -28,7 +28,7 @@ protected:
     virtual bool optionIsAcceptable(RplOption *) const;
 public:
     DaoMessage();
-    DaoMessage(const RplInstance &, const NodeList & nodes);
+    DaoMessage(const RplInstance &);
     virtual ~DaoMessage() {}
 };
 

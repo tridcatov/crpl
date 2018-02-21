@@ -2,10 +2,11 @@
 
 #include "node.h"
 
-TargetOption::TargetOption(const Node & n)
-    : RplOption(RPL_TARGET)
+TargetOption::TargetOption(const Address &addr)
+    : RplOption(RPL_TARGET),
+      addr(addr)
 {
-    addr = n.address;
+
 }
 
 TargetOption::TargetOption(const char *buf)

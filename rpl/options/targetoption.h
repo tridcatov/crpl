@@ -20,7 +20,7 @@ public:
     Address addr;
 
 public:
-    TargetOption(const Node &);
+    TargetOption(const Address & addr);
     TargetOption(const char * buf);
 
     virtual char *inscribeInBuffer(char * buf) const;

@@ -26,7 +26,7 @@ protected:
     void inscribeOptions(Buffer *) const;
 public:
     RplCode getCode() const { return code; }
-    virtual ~Message() {}
+    virtual ~Message();
     void addOption(RplOption * opt) {
         if ( optionIsAcceptable(opt) )
             options.push_back(opt);

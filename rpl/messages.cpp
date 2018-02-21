@@ -21,3 +21,10 @@ void Message::compileMessage(Buffer * b) const {
     inscribeOptions(b);
 }
 
+Message::~Message()
+{
+    for(RplOption * opt : options )
+        delete opt;
+}
+
+
