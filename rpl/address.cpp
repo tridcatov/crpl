@@ -38,7 +38,7 @@ void Address::readFromBuffer(const char *buf)
 void Address::print() const
 {
 #if LOGGING_ENABLED == 1
-    char buf[16 * 2 + 8 - 1];
+    char buf[16 * 2 + 8];
     sprintf(buf, "%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
             u8[0], u8[1], u8[2], u8[3], u8[4], u8[5], u8[6], u8[7],
             u8[8], u8[9], u8[10], u8[11], u8[12], u8[13], u8[14], u8[15]);

@@ -33,6 +33,6 @@ void DummyIOAgent::sendOutput(const Address &receiver, Message *message) {
     outputBuffer.printHex();
 }
 
-void DummyIOAgent::broadcastOutput(Message *message) {
+void DummyIOAgent::broadcastOutput(Message *) {
     DEBUG("Broadcasting message");
 }

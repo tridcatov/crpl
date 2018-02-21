@@ -1,7 +1,7 @@
 #include "dodagconfigurationoption.h"
 #include "util.h"
 
-DodagConfigurationOption::DodagConfigurationOption(const RplInstance & i)
+DodagConfigurationOption::DodagConfigurationOption(const RplInstance &)
     : RplOption(DODAG_CONFIGURATION)
 {
     authenticationEnabled = false;

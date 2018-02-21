@@ -19,7 +19,7 @@
 
 REGISTER_COMPONENT("RPLDaemon");
 
-Rpl::Rpl(IOAgent *io, NetconfAgent *net, const RplInstance &ri, bool isRoot):
+Rpl::Rpl(IOAgent *io, NetconfAgent *net, const RplInstance &, bool isRoot):
     io(io),
     net(net),
     root(isRoot)
@@ -78,7 +78,7 @@ static std::mutex processingMutex;
 using Lock = std::lock_guard<std::mutex>;
 #define LOCK Lock lock(processingMutex)
 
-void Rpl::processDis(DisMessage * msg, const Address & sender) {
+void Rpl::processDis(DisMessage *, const Address & sender) {
     LOCK;
     DEBUG("Processing DIS RPL message...");
     Node neighbor;
@@ -222,7 +222,7 @@ void Rpl::print() const
     DEBUG("Current parent status:");
     m_parent.print();
 
-    printf("\tRoutable entries number: %d\n", routables.size());
+    printf("\tRoutable entries number: %u\n", (unsigned)routables.size());
     for(const HopInfo & hop : routables ) {
         hop.first.print();
         DEBUG("VIA");

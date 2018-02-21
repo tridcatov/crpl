@@ -69,7 +69,7 @@ void DaoMessage::readMessage(const char *b, int len)
     dodagAnnouncing = b[2] & didAnnouncedFlag;
     sequence = b[4];
 
-    if ( dodagAnnouncing && len < baseLenNoAnnounce + sizeof(Address))
+    if ( dodagAnnouncing && len < baseLenNoAnnounce + (int)sizeof(Address))
         throw RE("Malformed DAO message: too short");
 
     if ( dodagAnnouncing )

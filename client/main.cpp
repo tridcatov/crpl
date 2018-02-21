@@ -25,7 +25,7 @@ static void testDio(IOAgent &, const NetconfAgent &, const RplInstance &);
 static void testDis(IOAgent &, const NetconfAgent &, const RplInstance &);
 static void testDao(IOAgent &, const NetconfAgent &, const RplInstance &);
 
-int main(int argc, char ** argv) {
+int main(int, char **) {
     DEBUG("debug works");
     WARN("warning works");
     ERR("error works");
