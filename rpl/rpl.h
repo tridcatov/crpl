@@ -49,6 +49,7 @@ public:
   const NodeList& getChildren() const { return children; }
   const NodeList& getParents() const { return parents; }
   const NodeList& getNeighbors() const { return neighbors; }
+  const HopMap & getRoutingInfo() const { return routables; }
 
   const Node & self() const { return node; }
   const Node & parent() const { return m_parent; }
