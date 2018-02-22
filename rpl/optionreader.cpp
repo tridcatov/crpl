@@ -9,6 +9,7 @@
 
 #include <stdexcept>
 
+using namespace rpl;
 using OptionList = std::list<RplOption *>;
 using RE = std::runtime_error;
 
@@ -16,30 +17,30 @@ static RplOption * getOption(const char *buf);
 
 OptionList OptionReader::readOptions(const char *buffer, int length)
 {
-    OptionList result;
-    int optLength = 0;
-    while ( optLength < length ) {
-        RplOption * option = getOption(buffer + optLength);
-        result.push_back(option);
-        optLength += option->length();
-    }
+  OptionList result;
+  int optLength = 0;
+  while ( optLength < length ) {
+    RplOption * option = getOption(buffer + optLength);
+    result.push_back(option);
+    optLength += option->length();
+  }
 
-    return result;
+  return result;
 }
 
 static RplOption * getOption(const char * buf) {
-    switch(*buf) {
-    case RplOption::PAD1:
-        return new RplPad1Option(buf);
-    case RplOption::PADN:
-        return new RplPadNOption(buf);
-    case RplOption::DODAG_CONFIGURATION:
-        return new DodagConfigurationOption(buf);
-    case RplOption::RPL_TARGET:
-        return new TargetOption(buf);
-    case RplOption::SOLICITED_INFORMATION:
-        return new RplSolicitedInformationOption(buf);
-    default:
-        throw new RE("Was unable to parse option");
-    }
+  switch(*buf) {
+  case RplOption::PAD1:
+    return new RplPad1Option(buf);
+  case RplOption::PADN:
+    return new RplPadNOption(buf);
+  case RplOption::DODAG_CONFIGURATION:
+    return new DodagConfigurationOption(buf);
+  case RplOption::RPL_TARGET:
+    return new TargetOption(buf);
+  case RplOption::SOLICITED_INFORMATION:
+    return new RplSolicitedInformationOption(buf);
+  default:
+    throw new RE("Was unable to parse option");
+  }
 }

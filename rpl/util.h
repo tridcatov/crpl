@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-
+namespace rpl {
 class Util
 {
 public:
@@ -23,4 +23,5 @@ public:
     }
 };
 
+}
 #endif // UTIL_H

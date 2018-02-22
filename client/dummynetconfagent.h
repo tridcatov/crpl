@@ -3,15 +3,15 @@
 
 #include "netconfagent.h"
 
-class DummyNetconfAgent : public NetconfAgent
+class DummyNetconfAgent : public rpl::NetconfAgent
 {
 private:
-    int deviceId;
+  int deviceId;
 public:
-    DummyNetconfAgent(int deviceId);
-    virtual ~DummyNetconfAgent() {}
-    virtual const Address & getBroadcastAddress() const;
-    virtual const Address & getSelfAddress() const;
+  DummyNetconfAgent(int deviceId);
+  virtual ~DummyNetconfAgent() {}
+  virtual const rpl::Address & getBroadcastAddress() const;
+  virtual const rpl::Address & getSelfAddress() const;
 };
 
 #endif // DUMMYNETCONFAGENT_H

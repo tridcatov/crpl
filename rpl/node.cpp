@@ -3,11 +3,13 @@
 
 REGISTER_COMPONENT("Node");
 
+using namespace rpl;
+
 void Node::print() const {
 #if LOGGING_ENABLED == 1
-    DEBUG("Node stats:");
-    address.print();
-    printf("\tRank: %d\n", rank);
-    instance.print();
+  DEBUG("Node stats:");
+  address.print();
+  printf("\tRank: %d\n", rank);
+  instance.print();
 #endif
 }

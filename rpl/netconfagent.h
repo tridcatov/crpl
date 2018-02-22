@@ -3,12 +3,14 @@
 
 #include "address.h"
 
-class NetconfAgent
-{
+namespace rpl {
+
+class NetconfAgent {
 public:
-    virtual const Address & getSelfAddress() const = 0;
-    virtual const Address & getBroadcastAddress() const = 0;
-    NetconfAgent() {}
+  virtual const Address & getSelfAddress() const = 0;
+  virtual const Address & getBroadcastAddress() const = 0;
+  NetconfAgent() {}
 };
 
+}
 #endif // NETCONFAGENT_H

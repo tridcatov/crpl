@@ -3,15 +3,18 @@
 
 #include "rploption.h"
 
+namespace rpl {
+
 class RplPadNOption : public RplOption
 {
 private:
-    int padding;
+  int padding;
 public:
-    RplPadNOption(int padding);
-    RplPadNOption(const char * buf);
-    virtual char * inscribeInBuffer(char *buf) const;
-    virtual int length() const { return padding; }
+  RplPadNOption(int padding);
+  RplPadNOption(const char * buf);
+  virtual char * inscribeInBuffer(char *buf) const;
+  virtual int length() const { return padding; }
 };
 
+}
 #endif // RPLPADNOPTION_H

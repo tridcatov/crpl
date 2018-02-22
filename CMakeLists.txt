@@ -1,5 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.4)
 
+project(crpl)
+
 add_definitions(-Wall -Werror -Wextra)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/)

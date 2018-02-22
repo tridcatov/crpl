@@ -3,17 +3,21 @@
 
 #include "messages.h"
 
+namespace rpl {
+
 class Buffer;
 
 class DisMessage : public Message
 {
-    friend class MessageReader;
+  friend class MessageReader;
 protected:
-    virtual void inscribeMessage(Buffer *) const;
-    virtual void readMessage(const char *, int len);
-    virtual bool optionIsAcceptable(RplOption *) const;
+  virtual void inscribeMessage(Buffer *) const;
+  virtual void readMessage(const char *, int len);
+  virtual bool optionIsAcceptable(RplOption *) const;
 public:
-    DisMessage();
+  DisMessage();
 };
+
+}
 
 #endif // DISMESSAGE_H
