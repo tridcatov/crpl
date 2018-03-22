@@ -1,8 +1,6 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include "definitions.h"
-
 #include <list>
 
 namespace rpl {

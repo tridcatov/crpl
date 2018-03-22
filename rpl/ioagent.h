@@ -1,8 +1,6 @@
 #ifndef IOAGENT_H
 #define IOAGENT_H
 
-#include "definitions.h"
-
 namespace rpl {
 
 class Address;
