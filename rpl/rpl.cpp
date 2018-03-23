@@ -12,6 +12,7 @@
 #include "messages.h"
 #include "diomessage.h"
 #include "daomessage.h"
+#include "dismessage.h"
 
 #include "util.h"
 
@@ -24,7 +25,8 @@ using namespace rpl;
 Rpl::Rpl(IOAgent *io, NetconfAgent *net, const RplInstance &, bool isRoot):
   io(io),
   net(net),
-  root(isRoot)
+  root(isRoot),
+  attached(isRoot)
 {
   node.address = net->getSelfAddress();
   io->setRplDaemon(this);
@@ -33,8 +35,15 @@ Rpl::Rpl(IOAgent *io, NetconfAgent *net, const RplInstance &, bool isRoot):
     node.instance.dodagid = net->getSelfAddress();
     node.instance.version = 0;
     node.instance.id = Util::shortIntFromBuffer((const char *)node.instance.dodagid.u8 + 14);
+    attached = true;
   }
 }
+
+const Address &Rpl::getAttachedRouterId() const
+{
+    return node.instance.dodagid;
+}
+
 
 static bool hasNode(const Address & address, const NodeList & nl) {
   for(NodeList::const_iterator i = nl.begin(); i != nl.end(); i++) {
@@ -102,6 +111,13 @@ void Rpl::processDis(DisMessage *, const Address & sender) {
 
   DioMessage dio(node);
   io->sendOutput(sender, &dio);
+}
+
+
+void Rpl::solicitNeighborhood()
+{
+    DisMessage message;
+    io->broadcastOutput(&message);
 }
 
 using OptionsList = std::list<RplOption *>;
@@ -198,6 +214,7 @@ void Rpl::processDio(DioMessage * m, const Address & sender) {
 
     node.instance = selectedParent->instance;
     node.rank = selectedParent->rank + 1;
+    attached = true;
   }
 }
 

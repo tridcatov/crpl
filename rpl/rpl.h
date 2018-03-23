@@ -37,6 +37,7 @@ private:
   Node m_parent;
 
   bool root;
+  bool attached;
 private:
   void processDis(DisMessage *, const Address &);
   void processDao(DaoMessage *, const Address &);
@@ -50,6 +51,14 @@ public:
   const NodeList& getParents() const { return parents; }
   const NodeList& getNeighbors() const { return neighbors; }
   const HopMap & getRoutingInfo() const { return routables; }
+
+  // Exposing address of tree root that
+  const Address & getAttachedRouterId() const;
+
+  // Force information solicitation
+  void solicitNeighborhood();
+
+  bool isAttached() const { return attached; }
 
   const Node & self() const { return node; }
   const Node & parent() const { return m_parent; }
